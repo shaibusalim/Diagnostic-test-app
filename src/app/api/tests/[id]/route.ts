@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
@@ -13,10 +13,15 @@ const schema = z.object({
 });
 
 // GET a single test by ID
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
+    const testId = Number(params.id);
+    if (isNaN(testId)) {
+      return NextResponse.json({ error: 'Invalid test ID' }, { status: 400 });
+    }
+
     const test = await prisma.diagnosticTest.findUnique({
-      where: { id: Number(context.params.id) },
+      where: { id: testId },
     });
 
     if (!test) {
@@ -31,13 +36,18 @@ export async function GET(request: NextRequest, context: { params: { id: string 
 }
 
 // UPDATE a test by ID
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
+    const testId = Number(params.id);
+    if (isNaN(testId)) {
+      return NextResponse.json({ error: 'Invalid test ID' }, { status: 400 });
+    }
+
     const body = await request.json();
     const validatedData = schema.parse(body); // Validate request body
 
     const test = await prisma.diagnosticTest.update({
-      where: { id: Number(context.params.id) },
+      where: { id: testId },
       data: validatedData,
     });
 
@@ -49,10 +59,15 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
 }
 
 // DELETE a test by ID
-export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
+    const testId = Number(params.id);
+    if (isNaN(testId)) {
+      return NextResponse.json({ error: 'Invalid test ID' }, { status: 400 });
+    }
+
     const test = await prisma.diagnosticTest.delete({
-      where: { id: Number(context.params.id) },
+      where: { id: testId },
     });
 
     return NextResponse.json(test);
