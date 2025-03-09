@@ -13,7 +13,10 @@ const schema = z.object({
 });
 
 // GET a single test by ID
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const testId = Number(params.id);
     if (isNaN(testId)) {
@@ -36,7 +39,10 @@ export async function GET(request: Request, { params }: { params: { id: string }
 }
 
 // UPDATE a test by ID
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const testId = Number(params.id);
     if (isNaN(testId)) {
@@ -59,7 +65,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
 }
 
 // DELETE a test by ID
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
     const testId = Number(params.id);
     if (isNaN(testId)) {
