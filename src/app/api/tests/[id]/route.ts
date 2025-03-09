@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 
@@ -12,30 +12,35 @@ const schema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(request: Request, context: { params: { id: string } }) {
+// GET a single test by ID
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
   try {
     const test = await prisma.diagnosticTest.findUnique({
       where: { id: Number(context.params.id) },
     });
-    if (test) {
-      return NextResponse.json(test);
-    } else {
+
+    if (!test) {
       return NextResponse.json({ error: 'Test not found' }, { status: 404 });
     }
+
+    return NextResponse.json(test);
   } catch (error) {
     console.error('Error fetching test:', error);
     return NextResponse.json({ error: 'Failed to fetch test result' }, { status: 500 });
   }
 }
 
-export async function PUT(request: Request, context: { params: { id: string } }) {
+// UPDATE a test by ID
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
   try {
     const body = await request.json();
-    const validatedData = schema.parse(body);
+    const validatedData = schema.parse(body); // Validate request body
+
     const test = await prisma.diagnosticTest.update({
       where: { id: Number(context.params.id) },
       data: validatedData,
     });
+
     return NextResponse.json(test);
   } catch (error) {
     console.error('Validation Error:', error);
@@ -43,11 +48,13 @@ export async function PUT(request: Request, context: { params: { id: string } })
   }
 }
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+// DELETE a test by ID
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
   try {
     const test = await prisma.diagnosticTest.delete({
       where: { id: Number(context.params.id) },
     });
+
     return NextResponse.json(test);
   } catch (error) {
     console.error('Error deleting test:', error);
