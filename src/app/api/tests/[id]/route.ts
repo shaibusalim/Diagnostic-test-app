@@ -12,10 +12,10 @@ const schema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, context: { params: { id: string } }) {
   try {
     const test = await prisma.diagnosticTest.findUnique({
-      where: { id: Number(params.id) },
+      where: { id: Number(context.params.id) },
     });
     if (test) {
       return NextResponse.json(test);
@@ -28,12 +28,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, context: { params: { id: string } }) {
   try {
     const body = await request.json();
-    const validatedData = schema.parse(body); // Validate the request body
+    const validatedData = schema.parse(body);
     const test = await prisma.diagnosticTest.update({
-      where: { id: Number(params.id) },
+      where: { id: Number(context.params.id) },
       data: validatedData,
     });
     return NextResponse.json(test);
@@ -43,10 +43,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(request: Request, context: { params: { id: string } }) {
   try {
     const test = await prisma.diagnosticTest.delete({
-      where: { id: Number(params.id) },
+      where: { id: Number(context.params.id) },
     });
     return NextResponse.json(test);
   } catch (error) {
