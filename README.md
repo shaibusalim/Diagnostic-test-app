@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Diagnostic Test Results Manager
 
-## Getting Started
+A full-stack web application built with **Next.js, Prisma ORM, and PostgreSQL** to help medical laboratories efficiently manage diagnostic test results.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+✅ **CRUD Operations**: Add, view, edit, and delete test results.  
+✅ **User-Friendly UI**: Built with React and Tailwind CSS.  
+✅ **Pagination**: Easily navigate through test results.  
+✅ **Validation**: Ensures data integrity with Zod.  
+✅ **Notifications**: Success and error toasts using react-toastify.  
+
+---
+
+## Technologies Used
+- **Frontend**: Next.js, React, Tailwind CSS  
+- **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL  
+- **Validation**: Zod  
+- **Deployment**: Vercel  
+
+---
+
+## Setup Instructions
+
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/your-username/diagnostic-test-results-manager.git
+cd diagnostic-test-results-manager
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2️⃣ Install Dependencies
+```sh
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3️⃣ Set Up the Database
+1. Create a **PostgreSQL** database.
+2. Update the **.env** file with your database connection URL:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE_NAME"
+```
 
-## Learn More
+### 4️⃣ Run Migrations
+```sh
+npx prisma migrate dev --name init
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 5️⃣ Start the Application
+```sh
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 6️⃣ Access the Application
+Open your browser and navigate to:
+```
+http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## API Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### **Endpoints**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### **POST** `/api/tests`
+**Description**: Add a new test result.
+
+**Request Body:**
+```json
+{
+  "patientName": "string",
+  "testType": "string",
+  "result": "string",
+  "testDate": "string (ISO format)",
+  "notes": "string (optional)"
+}
+```
+**Response:**
+```json
+{
+  "id": 1,
+  "patientName": "string",
+  "testType": "string",
+  "result": "string",
+  "testDate": "string",
+  "notes": "string"
+}
+```
+
+---
+
+#### **GET** `/api/tests`
+**Description**: Fetch all test results.
+
+**Response:**
+```json
+[
+  {
+    "id": 1,
+    "patientName": "string",
+    "testType": "string",
+    "result": "string",
+    "testDate": "string",
+    "notes": "string"
+  }
+]
+```
+
+---
+
+#### **GET** `/api/tests/:id`
+**Description**: Fetch a single test result by ID.
+
+**Response:**
+```json
+{
+  "id": 1,
+  "patientName": "string",
+  "testType": "string",
+  "result": "string",
+  "testDate": "string",
+  "notes": "string"
+}
+```
+
+---
+
+#### **PUT** `/api/tests/:id`
+**Description**: Update a test result by ID.
+
+**Request Body:**
+```json
+{
+  "patientName": "string",
+  "testType": "string",
+  "result": "string",
+  "testDate": "string (ISO format)",
+  "notes": "string (optional)"
+}
+```
+**Response:**
+```json
+{
+  "id": 1,
+  "patientName": "string",
+  "testType": "string",
+  "result": "string",
+  "testDate": "string",
+  "notes": "string"
+}
+```
+
+---
+
+#### **DELETE** `/api/tests/:id`
+**Description**: Delete a test result by ID.
+
+**Response:**
+```json
+{
+  "message": "Test result deleted successfully"
+}
+```
+
+
+## **Live Demo**
+Check out the live demo deployed on **Vercel**:  
+🔗 **[Live Demo](https://diagnostic-test-app-dq7f-git-main-salim-shaibus-projects.vercel.app)**
+
+---
+
+## **License**
+This project is licensed under the **MIT License**.
+
+---
+
+### **🚀 Happy Coding!** 🎉
+
