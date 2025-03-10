@@ -15,7 +15,7 @@ const schema = z.object({
 // GET a single test by ID
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } } 
 ) {
   try {
     const testId = Number(params.id);
@@ -41,7 +41,7 @@ export async function GET(
 // UPDATE a test by ID
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } } // Correct type for params
 ) {
   try {
     const testId = Number(params.id);
@@ -67,7 +67,7 @@ export async function PUT(
 // DELETE a test by ID
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } } // Correct type for params
 ) {
   try {
     const testId = Number(params.id);
